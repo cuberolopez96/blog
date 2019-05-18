@@ -1,0 +1,4 @@
+.env
+bootstrap.php
+cli-config.php
+docker-compose.yml
