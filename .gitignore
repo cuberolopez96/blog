@@ -2,3 +2,5 @@
 bootstrap.php
 cli-config.php
 docker-compose.yml
+vendor
+.idea
