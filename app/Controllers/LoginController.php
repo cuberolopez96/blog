@@ -11,4 +11,7 @@ class LoginController extends BaseController
     public function index(Request $request){
         return $this->render('login/login.twig',array());
     }
+    public function register(Request $request){
+        return $this->render('login/register.twig',array());
+    }
 }

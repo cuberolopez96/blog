@@ -2,7 +2,7 @@
 
 {% block content %}
     <div>
-        <form action="/login">
+        <form action="/register">
             <div>
                 <label for="username">Username</label>
                 <input type="text" name="username" id="username">
@@ -11,8 +11,12 @@
                 <label for="password">Password</label>
                 <input type="password" name="password" id="password">
             </div>
-            <input type="submit" name="login" id="login" value="Login">
-            <a href="/register">¿No tienes cuenta? Registrate</a>
+            <div>
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" name="confirm-password" id="confirm-password">
+            </div>
+            <input type="submit" name="Register" value="Register">
+            <a href="/login">¿Ya tienes cuenta? Inicia sesión </a>
         </form>
     </div>
 {% endblock %}

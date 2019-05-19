@@ -2,6 +2,7 @@
 
 use App\Controllers\DefaultController;
 use App\Controllers\LoginController;
+use App\Service\Managers\RolesManager;
 use App\Service\Persistence\RegistryMysqlService;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,11 +19,16 @@ $request = Request::createFromGlobals();
 $router = new RouteCollection();
 $router->add("main",new Route('/',array(
     "_controller"=>DefaultController::class,
-    "_action"=> "index"
+    "_action"=> "index",
+    "_role"=>RolesManager::ANONYMOUS
 )));
 $router->add("login",new Route('/login',array(
     "_controller"=>LoginController::class,
     "_action"=>"index")));
+$router->add("register", new Route("/register",array(
+    "_controller"=>LoginController::class,
+    "_action"=>"register"
+)));
 
 $context = new RequestContext();
 $context->fromRequest($request);

@@ -7,6 +7,10 @@ namespace App\Validators;
 
 
 use App\Models\User;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
+use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
 /**
@@ -20,7 +24,7 @@ class UserValidator implements ValidatorInterface
     public function __construct(Validator $validation)
     {
         $this->validator = $validation;
-        $this->errors = array();
+        $this->errors = 0;
     }
 
     /**
@@ -31,16 +35,23 @@ class UserValidator implements ValidatorInterface
     {
         $this->errors = 0;
 
-        if(count($this->validateUsername($user)) >= 0){
+        $constraintViolationUsername = $this->validateUsername($user);
+        if(count($constraintViolationUsername) >= 0){
+                $this->errors += count($constraintViolationUsername);
+        }
+
+        $constraintViolationPassword = $this->validatePassword($user);
+        if(count($constraintViolationPassword)>=0){
+            $this->errors += count($constraintViolationPassword) ;
 
         }
-        
-        return ;
+
+        return $this->errors == 0;
     }
 
     public function getErrors()
     {
-        // TODO: Implement getErrors() method.
+        return $this->errors;
     }
 
     private function validateUsername(User $user)
@@ -48,7 +59,18 @@ class UserValidator implements ValidatorInterface
         $username = $user->getUsername();
 
         return $this->validator->validate($username,array(
-            //TODO put validations
+           new NotBlank(),
+            new NotNull()
+        ));
+
+    }
+    private function validatePassword(User $user){
+        $password = $user->getPassword();
+        return $this->validator->validate($password,array(
+            new NotBlank(),
+            new Length([
+                'min'=>1
+            ])
         ));
     }
 
