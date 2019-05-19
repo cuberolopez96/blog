@@ -7,6 +7,8 @@ use Doctrine\ORM\Tools\Setup;
 
 /**
  * @property EntityManager entityManager
+ * @property string pathModels
+ * @property array conn
  */
 class RegistryMysqlService implements RegistryInterface
 {
@@ -21,20 +23,27 @@ class RegistryMysqlService implements RegistryInterface
      */
     public function __construct($driver,$host,$user,$password,$dbname)
     {
-        $conn = array(
+        $this->pathModels = "../app/Models";
+        $this->conn = array(
           "driver"=>$driver ,
           "host"=>$host,
           "user"=>$user,
           "password"=>$password,
           "dbname"=>$dbname,
         );
-        $config = Setup::createAnnotationMetadataConfiguration(array("../app/Models"));
+        $config = Setup::createAnnotationMetadataConfiguration(array($this->pathModels));
 
-        $this->entityManager = EntityManager::create($conn,$config);
+        $this->entityManager = EntityManager::create($this->conn,$config);
     }
 
     public function getEntityManager(){
         return $this->entityManager;
+    }
+
+    public function setSourceManager($pathModels){
+        $this->pathModels = $pathModels;
+        $config = Setup::createAnnotationMetadataConfiguration(array($this->pathModels));
+        $this->entityManager = EntityManager::create($this->conn,$config);
     }
 
 }

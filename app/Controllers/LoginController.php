@@ -1,12 +1,14 @@
 <?php
 
+
 namespace App\Controllers;
+
+
 use Symfony\Component\HttpFoundation\Request;
 
-class DefaultController extends BaseController
+class LoginController extends BaseController
 {
     public function index(Request $request){
-
-        return $this->render("Main/main.twig",array());
+        return $this->render('login/login.twig',array());
     }
 }

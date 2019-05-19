@@ -1,6 +1,7 @@
 <?php
 
 use App\Controllers\DefaultController;
+use App\Controllers\LoginController;
 use App\Service\Persistence\RegistryMysqlService;
 use Symfony\Component\Dotenv\Dotenv;
 use Symfony\Component\HttpFoundation\Request;
@@ -12,13 +13,16 @@ use Symfony\Component\Routing\RouteCollection;
 require_once "../vendor/autoload.php";
 
 $dotEnv = new Dotenv();
-$dotEnv->load('../env');
+$dotEnv->load('../.env');
 $request = Request::createFromGlobals();
 $router = new RouteCollection();
 $router->add("main",new Route('/',array(
     "_controller"=>DefaultController::class,
     "_action"=> "index"
 )));
+$router->add("login",new Route('/login',array(
+    "_controller"=>LoginController::class,
+    "_action"=>"index")));
 
 $context = new RequestContext();
 $context->fromRequest($request);
