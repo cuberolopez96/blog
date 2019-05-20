@@ -14,7 +14,10 @@ use Doctrine\ORM\EntityManager;
 class RolesManager implements ManagerInterface
 {
 
-    const ANONYMOUS = 'Anonymous';
+    const ANONYMOUS = "Anonymous";
+    const READER = "Reader";
+    const WRITER = "Writer";
+    const ADMIN = "Admin";
 
     public function __construct(RegistryInterface $registry)
     {

@@ -15,6 +15,7 @@ require_once "../vendor/autoload.php";
 
 $dotEnv = new Dotenv();
 $dotEnv->load('../.env');
+$role = RolesManager::ANONYMOUS;
 $request = Request::createFromGlobals();
 $router = new RouteCollection();
 $router->add("main",new Route('/',array(
@@ -24,10 +25,12 @@ $router->add("main",new Route('/',array(
 )));
 $router->add("login",new Route('/login',array(
     "_controller"=>LoginController::class,
-    "_action"=>"index")));
+    "_action"=>"index",
+    "_roles"=>RolesManager::ANONYMOUS)));
 $router->add("register", new Route("/register",array(
     "_controller"=>LoginController::class,
-    "_action"=>"register"
+    "_action"=>"register",
+    "_roles"=>RolesManager::ANONYMOUS
 )));
 
 $context = new RequestContext();

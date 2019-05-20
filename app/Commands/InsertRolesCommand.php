@@ -23,11 +23,25 @@ class InsertRolesCommand extends Command
         );
         $rolesManager = new RolesManager($registry);
 
+        $this->addRol($rolesManager, RolesManager::ANONYMOUS, 25);
+        $this->addRol($rolesManager, RolesManager::READER, 50);
+        $this->addRol($rolesManager, RolesManager::WRITER, 75);
+        $this->addRol($rolesManager, RolesManager::ADMIN, 100);
+
+
+    }
+
+    /**
+     * @param RolesManager $rolesManager
+     * @param $name
+     * @param $order
+     */
+    protected function addRol(RolesManager $rolesManager, $name, $order)
+    {
         $rol = new Rol();
-        $rol->setName(RolesManager::ANONYMOUS);
+        $rol->setName($name);
+        $rol->setNumorder($order);
         $rolesManager->add($rol);
-
-
     }
 
 }

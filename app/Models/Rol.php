@@ -3,6 +3,8 @@
 
 namespace App\Models;
 
+use phpDocumentor\Reflection\Types\Integer;
+
 /**
  * Class Rol
  * @package App\Models
@@ -21,25 +23,25 @@ class Rol
      */
     private $name;
     /**
-     * @var string
+     * @var integer
      * @Column(type="integer")
      */
-    private $order;
+    private $numorder;
 
     /**
-     * @return string
+     * @return integer
      */
-    public function getOrder(): string
+    public function getNumorder(): Integer
     {
-        return $this->order;
+        return $this->numorder;
     }
 
     /**
-     * @param string $order
+     * @param integer $numorder
      */
-    public function setOrder(string $order)
+    public function setNumorder($numorder)
     {
-        $this->order = $order;
+        $this->numorder = $numorder;
     }
 
     /**
