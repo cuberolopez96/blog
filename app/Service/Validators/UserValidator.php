@@ -63,7 +63,6 @@ class UserValidator implements ValidatorInterface
         if(strlen($password)<8){
             array_push($errors, self::ERROR_PASSWORD_LENGTH);
         }
-        //TODO prueba 5
     }
 
 
