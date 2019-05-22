@@ -8,7 +8,7 @@ namespace App\Models;
  * @package App\Models
  * @Entity @Table(name="posts")
  */
-class Post
+class Post implements ModelInterface
 {
     /**
      * @var integer

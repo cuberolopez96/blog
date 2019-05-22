@@ -7,7 +7,7 @@ namespace App\Models;
  * @package App\Models
  * @Entity @Table(name="users")
  */
-class User
+class User implements ModelInterface
 {
     /**
      * @var integer

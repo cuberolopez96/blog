@@ -2,14 +2,14 @@
 
 namespace App\Validators;
 
-use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
+use App\Models\ModelInterface;
 
 interface ValidatorInterface
 {
-    public function __construct(Validator $validation);
+    public function __construct();
 
 
-    public function validate($object);
+    public function validate(ModelInterface $model);
 
     public function getErrors();
 

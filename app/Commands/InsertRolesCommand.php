@@ -2,6 +2,7 @@
 namespace App\Commands;
 
 use App\Models\Rol;
+use App\Service\Container\ContainerService;
 use App\Service\Managers\RolesManager;
 use App\Service\Persistence\RegistryMysqlService;
 use Symfony\Component\Console\Command\Command;
@@ -14,19 +15,20 @@ class InsertRolesCommand extends Command
     protected function execute(InputInterface $input, OutputInterface $output)
     {
 
-        $registry = new RegistryMysqlService(
-            $_ENV['DB_DRIVER'],
-            $_ENV['DB_HOST'],
-            $_ENV['DB_USER'],
-            $_ENV['DB_PASSWORD'],
-            $_ENV['DB_NAME']
-        );
-        $rolesManager = new RolesManager($registry);
 
-        $this->addRol($rolesManager, RolesManager::ANONYMOUS, 25);
-        $this->addRol($rolesManager, RolesManager::READER, 50);
-        $this->addRol($rolesManager, RolesManager::WRITER, 75);
-        $this->addRol($rolesManager, RolesManager::ADMIN, 100);
+        $containerService = ContainerService::getContainer();
+        $rolesManager = $containerService->get("rolesManager");
+
+        try{
+            $this->addRol($rolesManager, RolesManager::ANONYMOUS, 25);
+            $this->addRol($rolesManager, RolesManager::READER, 50);
+            $this->addRol($rolesManager, RolesManager::WRITER, 75);
+            $this->addRol($rolesManager, RolesManager::ADMIN, 100);
+        }catch (\Exception $e){
+            $output->writeln($e->getMessage());
+            $output->writeln($e->getFile());
+            $output->writeln($e->getLine());
+        }
 
 
     }
@@ -38,10 +40,11 @@ class InsertRolesCommand extends Command
      */
     protected function addRol(RolesManager $rolesManager, $name, $order)
     {
-        $rol = new Rol();
-        $rol->setName($name);
-        $rol->setNumorder($order);
-        $rolesManager->add($rol);
+
+        $rolesManager->add(array(
+            RolesManager::PARAM_NAME=>$name,
+            RolesManager::PARAM_NUMORDER=>$order
+        ));
     }
 
 }

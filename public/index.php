@@ -15,7 +15,7 @@ require_once "../vendor/autoload.php";
 
 $dotEnv = new Dotenv();
 $dotEnv->load('../.env');
-$role = RolesManager::ANONYMOUS;
+
 $request = Request::createFromGlobals();
 $router = new RouteCollection();
 $router->add("main",new Route('/',array(

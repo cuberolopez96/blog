@@ -6,11 +6,8 @@ namespace App\Validators;
 
 
 
+use App\Models\ModelInterface;
 use App\Models\User;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
-use Symfony\Component\Validator\Constraints\NotNull;
-use Symfony\Component\Validator\Constraints\Regex;
 use Symfony\Component\Validator\Validator\ValidatorInterface as Validator;
 
 /**
@@ -21,30 +18,24 @@ class UserValidator implements ValidatorInterface
 {
 
 
-    public function __construct(Validator $validation)
+    const ERROR_NAME_EMPTY = "The name is Empty";
+    const ERROR_PASSWORD_EMPTY = "The password is Empty";
+    const ERROR_PASSWORD_LENGTH = "The minimum password's length is 8 characters";
+
+    public function __construct()
     {
-        $this->validator = $validation;
         $this->errors = 0;
     }
 
     /**
-     * @param User $user
+     * @param ModelInterface $model
      * @return mixed
      */
-    public function validate($user)
+    public function validate(ModelInterface $model)
     {
         $this->errors = 0;
 
-        $constraintViolationUsername = $this->validateUsername($user);
-        if(count($constraintViolationUsername) >= 0){
-                $this->errors += count($constraintViolationUsername);
-        }
 
-        $constraintViolationPassword = $this->validatePassword($user);
-        if(count($constraintViolationPassword)>=0){
-            $this->errors += count($constraintViolationPassword) ;
-
-        }
 
         return $this->errors == 0;
     }
@@ -54,24 +45,24 @@ class UserValidator implements ValidatorInterface
         return $this->errors;
     }
 
-    private function validateUsername(User $user)
+    private function validateUsername(User $user, array &$errors)
     {
-        $username = $user->getUsername();
-
-        return $this->validator->validate($username,array(
-           new NotBlank(),
-            new NotNull()
-        ));
+        $name = $user->getName();
+        if(!$name || $name == "")
+        {
+            array_push($errors, self::ERROR_NAME_EMPTY);
+        }
+        return $errors;
 
     }
-    private function validatePassword(User $user){
+    private function validatePassword(User $user, array &$errors){
         $password = $user->getPassword();
-        return $this->validator->validate($password,array(
-            new NotBlank(),
-            new Length([
-                'min'=>1
-            ])
-        ));
+        if(!$password || $password == ""){
+            array_push($errors, self::ERROR_PASSWORD_EMPTY);
+        }
+        if(strlen($password)<8){
+            array_push($errors, self::ERROR_PASSWORD_LENGTH);
+        }
     }
 
 

@@ -10,7 +10,7 @@ use phpDocumentor\Reflection\Types\Integer;
  * @package App\Models
  * @Entity @Table(name="roles")
  */
-class Rol
+class Rol implements ModelInterface
 {
     /**
      * @var integer
@@ -31,7 +31,7 @@ class Rol
     /**
      * @return integer
      */
-    public function getNumorder(): Integer
+    public function getNumorder(): int
     {
         return $this->numorder;
     }
