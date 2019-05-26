@@ -7,6 +7,7 @@ namespace App\Service\Container;
 use App\Service\Managers\RolesManager;
 use App\Service\Managers\UserManager;
 use App\Service\Persistence\RegistryMysqlService;
+use App\Service\Security\AuthService;
 use App\Service\Validators\RolValidator;
 use App\Validators\UserValidator;
 use http\Exception\RuntimeException;
@@ -35,6 +36,7 @@ class ContainerService implements ContainerInterface
         $this->services["rolValidator"] = new RolValidator();
         $this->services["userManager"] = new UserManager($this->get("doctrine"), $this->get("userValidator"));
         $this->services["rolesManager"] = new RolesManager($this->get("doctrine"), $this->get("rolValidator"));
+        $this->services["authService"] = new AuthService();
     }
 
     public function get(string $index)

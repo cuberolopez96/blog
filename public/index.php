@@ -3,9 +3,12 @@
 use App\Controllers\AdminController;
 use App\Controllers\DefaultController;
 use App\Controllers\LoginController;
+use App\Service\Container\ContainerService;
 use App\Service\Managers\RolesManager;
 use App\Service\Persistence\RegistryMysqlService;
+use App\Service\Security\AuthService;
 use Symfony\Component\Dotenv\Dotenv;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
 use Symfony\Component\Routing\RequestContext;
@@ -22,7 +25,7 @@ $router = new RouteCollection();
 $router->add("main",new Route('/',array(
     "_controller"=>DefaultController::class,
     "_action"=> "index",
-    "_role"=>RolesManager::ANONYMOUS
+    "_roles"=>RolesManager::ANONYMOUS
 )));
 $router->add("login",new Route('/login',array(
     "_controller"=>LoginController::class,
@@ -43,7 +46,15 @@ $context = new RequestContext();
 $context->fromRequest($request);
 $match = new UrlMatcher($router,$context);
 $parameters = $match->match($context->getPathInfo());
-
+$container = ContainerService::getContainer();
+/**
+ * @var AuthService $authService
+ */
+$authService = $container->get('authService');
+if(!$authService->checkPermission($parameters["_roles"])){
+    header("Location: /login");
+    return;
+}
 $controller = new $parameters["_controller"](new RegistryMysqlService(
     $_ENV['DB_DRIVER'],
     $_ENV['DB_HOST'],

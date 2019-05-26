@@ -30,10 +30,7 @@ class UserManager implements ManagerInterface
      */
     public function add(array $params)
     {
-//        $object->setPassword(password_hash($object->getPassword(),PASSWORD_BCRYPT));
-//        $this->entityManager->persist($object);
-//        $this->entityManager->flush();
-//        return $object;
+
 
 
     }

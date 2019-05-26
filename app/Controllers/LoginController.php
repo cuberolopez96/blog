@@ -12,6 +12,8 @@ class LoginController extends BaseController
         return $this->render('login/login.twig',array());
     }
     public function register(Request $request){
+        $post = $request->request->all();
+
         return $this->render('login/register.twig',array());
     }
 }
