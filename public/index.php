@@ -1,5 +1,6 @@
 <?php
 
+use App\Controllers\AdminController;
 use App\Controllers\DefaultController;
 use App\Controllers\LoginController;
 use App\Service\Managers\RolesManager;
@@ -31,6 +32,11 @@ $router->add("register", new Route("/register",array(
     "_controller"=>LoginController::class,
     "_action"=>"register",
     "_roles"=>RolesManager::ANONYMOUS
+)));
+$router->add("admin", new Route("/admin",array(
+    "_controller"=>AdminController::class,
+    "_action" => "index",
+    "_roles"=>RolesManager::ADMIN
 )));
 
 $context = new RequestContext();
